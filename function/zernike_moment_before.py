@@ -92,7 +92,7 @@ def calc_zernike_moment(lst, POSCAR_PATH):   ##lst is a nlm_list
     return result
 
 def calc_each_zernike(lst, POSCAR_PATH, cut_off):
-    PATH = "/home/ryuhei/zernike_moment/zernike_coeff/h_list/"
+    PATH = "/home/ryuhei/zernike_moment/data/working/h_list/"
     [n, l, m] = lst
     COEFF_PATH = os.path.join(PATH, str(n))
     coeff_array = np.zeros(7)
