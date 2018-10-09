@@ -17,8 +17,8 @@ class TestPOSCAR():
         self.trans_POSCAR = None
 
     # Set structure info
-    def set_struct(self, crys_type='bcc', length=4, spe='Al'):
-        coords = np.array(([0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]))
+    def set_struct(self, crys_type='sc', length=4, spe='Al'):
+        coords = np.array(([0, 0, 0])).reshape(1, 3)
         lattice = np.eye(3) * length
         species = [spe] * coords.shape[0]
         struct = Structure(lattice=lattice, species=species, coords=coords)

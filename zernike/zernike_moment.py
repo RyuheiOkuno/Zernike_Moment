@@ -140,7 +140,7 @@ class ZernikeDescriptor():
                     all_moment.append(each_matrix)
                     conj = ((-1) ** a_file[-1]) * np.conj(each_matrix)
                     all_moment.append(conj)
-                    # The shape of all_moment array is n x atom_num x val_num
+                    # The shape of all_moment array is ZM x atom_num x val_num
             # descriptor shape is atom_num x val_num
             descriptor = norm(np.array(all_moment))
             descriptors = np.hstack((descriptors, descriptor))
@@ -172,7 +172,7 @@ def calc_zernike_moment(coeffs, POSCAR_PATH, cut_off, atom_info=None):
 
 def calc_geomet_moment(lst, POSCAR_PATH, cut_off, atom_info=None):
     '''
-    This function callulates geomet moment
+    This function calculates geomet moment
     weighs each componets value such as electronegativity and so on
     input
     ---------
@@ -256,8 +256,9 @@ def norm(tensor):
         each_descriptor = []
         for j in range(val_num):
             vec = tensor[:, i, j].reshape(1, tensor.shape[0])
-            norm_val = np.dot(vec, np.conj(vec).T)
+            squared_norm = (np.dot(vec, np.conj(vec).T).item()).real
+            norm_val = np.sqrt(squared_norm)
             each_descriptor.append(norm_val)
-        each = np.array(each_descriptor).reshape(1, val_num)
+        each = np.sqrt(np.array(each_descriptor)).reshape(1, val_num)
         descriptor = np.vstack((descriptor, each))
     return descriptor[1:]
