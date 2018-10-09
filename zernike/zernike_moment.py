@@ -259,6 +259,6 @@ def norm(tensor):
             squared_norm = (np.dot(vec, np.conj(vec).T).item()).real
             norm_val = np.sqrt(squared_norm)
             each_descriptor.append(norm_val)
-        each = np.sqrt(np.array(each_descriptor)).reshape(1, val_num)
+        each = np.array(each_descriptor).reshape(1, val_num)
         descriptor = np.vstack((descriptor, each))
     return descriptor[1:]
