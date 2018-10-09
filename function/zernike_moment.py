@@ -140,10 +140,11 @@ class ZernikeDescriptor():
                     all_moment.append(each_matrix)
                     conj = ((-1) ** a_file[-1]) * np.conj(each_matrix)
                     all_moment.append(conj)
-        self.all_moment = all_moment
-            #descriptor = np.linalg.norm(np.array(all_moment), axis=0)
-            #descriptors = np.hstack((descriptors, descriptor))
-        #self.descriptors = descriptors[:, 1:]
+                    # The shape of all_moment array is n x atom_num x val_num
+            # descriptor shape is atom_num x val_num
+            descriptor = norm(np.array(all_moment))
+            descriptors = np.hstack((descriptors, descriptor))
+        self.descriptors = descriptors[:, 1:]
 
 '''
 Define function to be used in this program
@@ -237,3 +238,26 @@ def calc_exponet_val(coords, exponent):
         z_val = z ** t
         val = x_val * y_val * z_val
     return val
+
+# Calc norm of tensor axis=0
+# This works well when value is comple value
+def norm(tensor):
+    '''
+    input
+    -------
+    tensor : np.array like
+             The shape is (the number of ZM) x (atom_num) x val_num
+    -------
+    '''
+    atom_num = tensor.shape[1]
+    val_num = tensor.shape[2]
+    descriptor = np.zeros((1, val_num))
+    for i in range(atom_num):
+        each_descriptor = []
+        for j in range(val_num):
+            vec = tensor[:, i, j].reshape(1, tensor.shape[0])
+            norm_val = np.dot(vec, np.conj(vec).T)
+            each_descriptor.append(norm_val)
+        each = np.array(each_descriptor).reshape(1, val_num)
+        descriptor = np.vstack((descriptor, each))
+    return descriptor[1:]
