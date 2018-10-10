@@ -116,14 +116,14 @@ class ZernikeDescriptor():
                                                 atom_info=atom_info), each))
             zernike_moments.append(np.array(zerval))
         # Set value
-        self.zernike = zernike_moments
+        return zernike_moments
 
-    def generate_descriptor(self):
+    def generate_descriptor(self, zernike):
         '''
         generate zernike descriptor from zernike moment value
         '''
         # Get zernike moment and nlm_lst value
-        zermom = self.zernike
+        zermom = zernike
         nlm_lst = self.nlm_lst
 
         atom_num = np.array(zermom[0]).shape[1]
@@ -144,7 +144,7 @@ class ZernikeDescriptor():
             # descriptor shape is atom_num x val_num
             descriptor = norm(np.array(all_moment))
             descriptors = np.hstack((descriptors, descriptor))
-        self.descriptors = descriptors[:, 1:]
+        return descriptors[:, 1:]
 
 '''
 Define function to be used in this program
@@ -212,17 +212,23 @@ def calc_geomet_moment(lst, POSCAR_PATH, cut_off, atom_info=None):
         val = [calc_exponet_val(coord, lst) for coord in mapped_array]
         # If atom_info = None, calc geomet moment only from strucutre
         if atom_info == None:
-            result = np.array(np.mean(val)).reshape(1, 1)
+            if val == []:
+                result = np.zeros((1,1))
+            else:
+                result = np.array(np.mean(val)).reshape(1, 1)
             result_arr = np.vstack((result_arr, result))
         # If atom_info is set, use atom_info too
         else:
-            arr = np.array(val).reshape(1, len(val))/len(val)
-            # Get neighbor atom's property information
-            # If atom_info isn't set, pass this step
-            neigh_name = [a_file[0].species_string for a_file in neighbors]
-            neigh_info = np.array([atom_info[i] for i in neigh_name])
-            # Get weighed value
-            result = np.dot(arr, neigh_info)
+            if val == []:
+                result = np.zeros((1, len(atom_info['H'])))
+            else:
+                arr = np.array(val).reshape(1, len(val))/len(val)
+                # Get neighbor atom's property information
+                # If atom_info isn't set, pass this step
+                neigh_name = [a_file[0].species_string for a_file in neighbors]
+                neigh_info = np.array([atom_info[i] for i in neigh_name])
+                # Get weighed value
+                result = np.dot(arr, neigh_info)
             result_arr = np.vstack((result_arr, result))
     return result_arr[1:]
 
