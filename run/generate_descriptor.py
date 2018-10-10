@@ -15,7 +15,7 @@ def run(zd, data, i):
     poscar_path = os.path.join(DATA_PATH, data, 'POSCAR')
     zernike = zd.get_moment_val(poscar_path, CUT_OFF)
     descriptor = zd.generate_descriptor(zernike)
-    print(data)
+    print('The number : ' + str(i) + ' is done')
     return descriptor, i
 
 
