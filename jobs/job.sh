@@ -3,9 +3,9 @@
 #$ -cwd
 #$ -N calc_NUMBER_ZD
 #$ -pe mpi* 16
-#$ -e err.logNUMBER
-#$ -o std.logNUMBER
+#$ -e w_a_err.logNUMBER
+#$ -o w_a_std.logNUMBER
 
 source /home/ryuhei/.bashrc
 
-python /home/ryuhei/zernike_moment/data/program/run/generate_descriptor.py NUMBER 6 False
+python /home/ryuhei/zernike_moment/data/program/run/generate_descriptor.py NUMBER 6 True

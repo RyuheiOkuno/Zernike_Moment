@@ -27,7 +27,7 @@ if __name__ == '__main__':
     args = sys.argv
     ORDER = int(args[1])
     CUT_OFF = int(args[2])
-    with_atom = str(args[3])
+    with_atom = bool(str(args[3]))
     #ORDER = 2
     #with_atom = False
     #CUT_OFF = 6
@@ -104,7 +104,11 @@ if __name__ == '__main__':
 
     if with_atom == True:
         SAVE_PATH = '../../descriptor/weighed/' + str(CUT_OFF)
+        save_path = os.path.join(SAVE_PATH, str(ORDER) + '.npy')
+        np.save(save_path, descriptor)
     else:
         SAVE_PATH = '../../descriptor/only_struct/' + str(CUT_OFF)
-    save_path = os.path.join(SAVE_PATH, str(ORDER) + '.npy')
-    np.save(save_path, descriptor)
+        save_path = os.path.join(SAVE_PATH, str(ORDER) + '.npy')
+        np.save(save_path, descriptor)
+
+    print(descriptor.shape)
