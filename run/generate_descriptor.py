@@ -97,7 +97,14 @@ if __name__ == '__main__':
     result.sort(key=lambda x: x[1])
     result_lst = [t[0] for t in result]
     # add descriptors to empty array
-    descriptor = np.zeros((1, int(DES_LENGTH)))
+    _descriptor = np.zeros((1, int(DES_LENGTH)))
     for a_file in result_lst:
-        descriptor = np.vstack((descriptor, a_file))
-    descriptor = descriptor[1:]
+        _descriptor = np.vstack((_descriptor, a_file))
+    descriptor = _descriptor[1:]
+
+    if with_atom == True:
+        SAVE_PATH = '../../descriptor/weighed/' + str(CUT_OFF)
+    else:
+        SAVE_PATH = '../../descriptor/only_struct/' + str(CUT_OFF)
+    save_path = os.path.join(SAVE_PATH, str(ORDER) + '.npy')
+    np.save(save_path, descriptor)
