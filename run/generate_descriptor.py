@@ -27,7 +27,7 @@ if __name__ == '__main__':
     args = sys.argv
     ORDER = int(args[1])
     CUT_OFF = int(args[2])
-    with_atom = bool(str(args[3]))
+    with_atom = bool(args[3])
     #ORDER = 2
     #with_atom = False
     #CUT_OFF = 6
