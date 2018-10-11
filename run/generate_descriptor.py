@@ -5,6 +5,7 @@ This program is run script of zernike moment
 # Import modules
 import numpy as np
 import os
+from distutils.util import strtobool
 from joblib import Parallel, delayed
 from zernike import zernike_moment
 import sys
@@ -27,10 +28,7 @@ if __name__ == '__main__':
     args = sys.argv
     ORDER = int(args[1])
     CUT_OFF = int(args[2])
-    with_atom = bool(args[3])
-    #ORDER = 2
-    #with_atom = False
-    #CUT_OFF = 6
+    with_atom = bool(strtobool(args[3]))
     # Calc the order of descriptors
     if ORDER % 2 == 0:
         DES_NUM = (ORDER / 2) + 1
@@ -85,13 +83,13 @@ if __name__ == '__main__':
     print("Order = " + str(ORDER))
     print("Cut_Off Radius = " + str(CUT_OFF))
     print("With Atom = " + str(with_atom))
-    print('-------------------------------------------------------------------')
+    print('-----------------------------------------------------------------')
 
     result = Parallel(n_jobs=-1, verbose=10)([delayed(run)(zd, data, i)
                                               for i, data
                                               in enumerate(data_path)])
 
-    print('-------------------------------------------------------------------')
+    print('-----------------------------------------------------------------')
     print("Calc Done For Order " + str(ORDER))
 
     result.sort(key=lambda x: x[1])
@@ -111,4 +109,4 @@ if __name__ == '__main__':
         save_path = os.path.join(SAVE_PATH, str(ORDER) + '.npy')
         np.save(save_path, descriptor)
 
-    print(descriptor.shape)
+    print('Descriptor shape is ' + str(descriptor.shape))
