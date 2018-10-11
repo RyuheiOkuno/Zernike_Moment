@@ -17,6 +17,7 @@ import math
 # load data
 INFO = np.load('/home/ryuhei/zernike_moment/data/working/atom_info.npy')
 
+
 class TestZernike(unittest.TestCase):
     '''
     test class of zernike
@@ -105,5 +106,7 @@ class TestZernike(unittest.TestCase):
         print(val1)
         print(val2)
         print(val1 - val2)
+
+
 if __name__ == '__main__':
     unittest.main()

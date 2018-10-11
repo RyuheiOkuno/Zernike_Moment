@@ -10,6 +10,7 @@ import copy
 from pymatgen.core.structure import Structure
 from pymatgen.core.operations import SymmOp
 
+
 class TestPOSCAR():
     # Set init value
     def __init__(self):
@@ -33,11 +34,12 @@ class TestPOSCAR():
         affine_matrix = R.T
         sym = SymmOp(affine_matrix)
         init_st = copy.copy(self.struct)
-        if frac == True:
+        if frac is True:
             init_st.apply_operation(sym, fractional=True)
         else:
             init_st.apply_operation(sym, fractional=False)
         self.rotate = init_st
+
 
 def rotate_matrix():
     px = random.uniform(0, 2 * math.pi)

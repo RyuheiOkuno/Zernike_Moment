@@ -10,6 +10,7 @@ from joblib import Parallel, delayed
 from zernike import zernike_moment
 import sys
 
+
 # Define function
 # Calc moment value
 def run(zd, data, i):
@@ -51,7 +52,7 @@ if __name__ == '__main__':
 
     # Set atom_info
     atom_info = np.load('../../working/atom_info.npy')
-    if with_atom == True:
+    if with_atom is True:
         atom_info = atom_info.item()
         atom_lengh = atom_info['H'].shape[0]
         DES_LENGTH = int(atom_lengh * DES_NUM)
@@ -100,7 +101,7 @@ if __name__ == '__main__':
         _descriptor = np.vstack((_descriptor, a_file))
     descriptor = _descriptor[1:]
 
-    if with_atom == True:
+    if with_atom is True:
         SAVE_PATH = '../../descriptor/weighed/' + str(CUT_OFF)
         save_path = os.path.join(SAVE_PATH, str(ORDER) + '.npy')
         np.save(save_path, descriptor)

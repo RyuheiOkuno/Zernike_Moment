@@ -10,6 +10,7 @@ import copy
 import functools
 import math
 
+
 class ZernikeDescriptor():
 
     # Set init value
@@ -146,9 +147,11 @@ class ZernikeDescriptor():
             descriptors = np.hstack((descriptors, descriptor))
         return descriptors[:, 1:]
 
+
 '''
 Define function to be used in this program
 '''
+
 
 def calc_zernike_moment(coeffs, POSCAR_PATH, cut_off, atom_info=None):
     '''
@@ -169,6 +172,7 @@ def calc_zernike_moment(coeffs, POSCAR_PATH, cut_off, atom_info=None):
     zermom = [geomom[i] * h_val[i] for i in range(len(geomom))]
     zermom = (3 * np.sum(np.array(zermom), axis=0))/(4 * math.pi)
     return zermom
+
 
 def calc_geomet_moment(lst, POSCAR_PATH, cut_off, atom_info=None):
     '''
@@ -193,7 +197,7 @@ def calc_geomet_moment(lst, POSCAR_PATH, cut_off, atom_info=None):
     sites = st.sites
 
     # Create empty array to add result value
-    if atom_info == None:
+    if atom_info is None:
         result_arr = np.zeros((1, 1))
     else:
         result_arr = np.zeros((1, len(atom_info['H'])))
@@ -211,9 +215,9 @@ def calc_geomet_moment(lst, POSCAR_PATH, cut_off, atom_info=None):
         # Calc geometrical moment
         val = [calc_exponet_val(coord, lst) for coord in mapped_array]
         # If atom_info = None, calc geomet moment only from strucutre
-        if atom_info == None:
+        if atom_info is None:
             if val == []:
-                result = np.zeros((1,1))
+                result = np.zeros((1, 1))
             else:
                 result = np.array(np.mean(val)).reshape(1, 1)
             result_arr = np.vstack((result_arr, result))
@@ -232,6 +236,7 @@ def calc_geomet_moment(lst, POSCAR_PATH, cut_off, atom_info=None):
             result_arr = np.vstack((result_arr, result))
     return result_arr[1:]
 
+
 # Calc exponet value of coords
 def calc_exponet_val(coords, exponent):
     if len(coords) != len(exponent):
@@ -244,6 +249,7 @@ def calc_exponet_val(coords, exponent):
         z_val = z ** t
         val = x_val * y_val * z_val
     return val
+
 
 # Calc norm of tensor axis=0
 # This works well when value is comple value

@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import os
 
+
 class AtomInfo():
     # Set init
     def __init__(self):
@@ -44,9 +45,11 @@ class AtomInfo():
         self.val_name = val_name
         self.data = dict_
 
+
 # Run script
 DATA_DIR = '/home/ryuhei/zernike_moment/data/raw/'
 FILE_NAME = 'atomic_data_20160603.csv'
+
 
 if __name__ == '__main__':
     os.chdir(DATA_DIR)
