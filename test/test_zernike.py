@@ -57,7 +57,9 @@ class TestZernike(unittest.TestCase):
         actual = zernike_moment.calc_geomet_moment(lst, POSCAR_PATH, cut_off,
                                                    atom_info)
         expect = (atom_info['Al'] * (32/729)).reshape(1, 24)
-        print(actual - expect)
+        act = actual[~np.isnan(np.array(actual, dtype=float))]
+        exp = expect[~np.isnan(np.array(expect, dtype=float))]
+        np.testing.assert_almost_equal(act, exp, decimal=5)
 
     def test_calc_zernike_moment(self):
         COEFF_PATH = '/home/ryuhei/zernike_moment/data/working/h_list/2/'
@@ -73,12 +75,10 @@ class TestZernike(unittest.TestCase):
         zd.get_coeff_info(coeff)
         coeffs = zd.calc_lst[0][0]
         print(zd.nlm_lst[0][0])
-        actual = zernike_moment.calc_zernike_moment(coeffs, './POSCAR', 4)
+        actual = zernike_moment.calc_zernike_moment(coeffs,
+                                                    './POSCAR', 4).item()
         expect = (3 * np.sqrt(7/3))/(4 * math.pi)
-        expecta = np.array(expect, dtype='complex128').reshape(1, 1)
-        print(expect)
-        print(actual - expecta)
-        # Be cautious that there may be over flow error
+        self.assertAlmostEqual(actual, expect)
 
     def test_generate_descriptor(self):
         COEFF_PATH = '/home/ryuhei/zernike_moment/data/working/h_list/4/'
@@ -94,18 +94,12 @@ class TestZernike(unittest.TestCase):
         zd.get_coeff_info(coeff)
         zd.get_atomic_info(INFO.item())
         # Calc value1
-        zd.get_moment_val('./POSCAR', 6)
-        zd.generate_descriptor()
-        val1 = zd.descriptors
-
+        zernike1 = zd.get_moment_val('./POSCAR', 6)
+        val1 = zd.generate_descriptor(zernike1)
         # Calc value2
-        zd.get_moment_val('./rotate_POSCAR', 6)
-        zd.generate_descriptor()
-        val2 = zd.descriptors
-
-        print(val1)
-        print(val2)
-        print(val1 - val2)
+        zernike2 = zd.get_moment_val('./rotate_POSCAR', 6)
+        val2 = zd.generate_descriptor(zernike2)
+        np.testing.assert_almost_equal(val1, val2, decimal=3)
 
 
 if __name__ == '__main__':
