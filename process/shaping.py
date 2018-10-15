@@ -121,12 +121,10 @@ if __name__ == '__main__':
     DES_PATH = '/home/ryuhei/zernike_moment/data/descriptor/cohesive/'
     if WEIGHED == 'on':
         PATH = os.path.join(DES_PATH, 'weighed', str(CUT_OFF))
-        min_val = 0
     elif WEIGHED == 'off':
-        min_val = 1
         PATH = os.path.join(DES_PATH, 'only_struct', str(CUT_OFF))
     des = np.zeros((len(ele_lst), 1))
-    for i in range(min_val, ORDER + 1):
+    for i in range(1, ORDER + 1):
         each_path = os.path.join(PATH, str(i) + '.npy')
         each_des = np.load(each_path)
         des = np.hstack((des, each_des))
